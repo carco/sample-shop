@@ -1,0 +1,8 @@
+.idea
+.settings
+.buildpath
+.project
+.DS_Store
+composer.phar
+config.php
+!**/.gitkeep

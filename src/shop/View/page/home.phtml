@@ -1,0 +1,36 @@
+<!--
+Random products per category
+-->
+<?php 
+/** @var $categories array[] */
+?>
+
+
+<div class="container">
+    <div class="row">
+    <?php $i=0;foreach($categories as $category): ?>
+        <div class="span6">
+            <h3><a href="/product/category/<?php echo $category['id'];?>"><?php echo h($category['name']);?></a></h3>
+            <hr class="soften"/>
+            <ul class="thumbnails">
+                <?php foreach($category['_products'] as $product): ?>
+                <li class="span2">
+                    <div class="thumbnail">
+                        <a class="zoomTool" href="/product/category/<?php echo $category['id'];?>" title="view all <?php echo h($category['name']);?>"><span class="icon-search"></span>View ALL<br><?php echo h($category['name']);?></a>
+                        <a href="/product/category/<?php echo $category['id'];?>"><img src="/assets/product/<?php echo trim($product['image'],"/");?>" alt=""></a>
+                        <div class="caption cntr" style="height:80px;overflow: hidden;">
+                            <?php echo h($product['name']);?>, <strong>$<?php echo number_format($product['price'],2);?></strong>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php if($i%2): ?>
+    </div>
+    <div class="row">
+        <?php endif; $i++?>
+        
+    <?php endforeach;?>
+    </div>
+</div>

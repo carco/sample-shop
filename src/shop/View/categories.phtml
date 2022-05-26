@@ -1,0 +1,17 @@
+<?php
+$cats = Shop\App::getModel('category')->getNames();
+if (!empty($currentCategory)) {
+    $catId = $currentCategory['id'];
+} else {
+    $catId = 0;
+}
+
+if(!$cats) return;
+
+?>
+        <ul class="nav nav-list">
+            <?php foreach($cats as $cat): ?>
+            <li class="<?php echo ($catId == $cat['id'] ? 'active' : '')?>"><a href="/product/category/<?php echo $cat['id'];?>"><span class="icon-chevron-right"></span><?php echo h($cat['name']); ?></a></li>
+            <?php endforeach; ?>
+            <li style="border:0"> &nbsp;</li>
+        </ul>

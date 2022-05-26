@@ -1,0 +1,24 @@
+.order-new {background:lightyellow}
+.order-processing {background:lightblue}
+.order-complete {font-weight: bold;}
+.order-canceled {opacity:0.5; font-style: italic}
+.order-status span {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding:3px;
+    color:white;
+    
+}
+.order-complete .order-status span {
+    background-color: #468847;
+}
+.order-processing .order-status span {
+    background-color: #2d6987;
+}
+.order-new .order-status span {
+    background-color: #953b39;
+}
+.order-canceled .order-status span {
+    background-color: #333333;
+}

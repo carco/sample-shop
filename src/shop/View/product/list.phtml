@@ -1,0 +1,28 @@
+
+<div class="well well-small">
+    <h3><?php echo $currentCategory['name'] ??  'Our Products';?> </h3>
+    <?php if(empty($products)): ?>
+        No product(s).
+    <?php else: foreach($products as $product): ?>
+        <div class="row-fluid">
+            <div class="span2">
+                <img src="/assets/product/<?php echo trim($product['image'],"/");?>" alt="">
+            </div>
+            <div class="span6">
+                <h5><?php echo h($product['name']);?></h5>
+                <p>
+                    <?php echo h($product['description']); ?>
+                </p>
+            </div>
+            <div class="span4 alignR">
+                <form class="form-horizontal qtyFrm">
+                    <h3> $<?php echo number_format($product['price'],2);?></h3>
+                    <div class="btn-group">
+                        <a href="/cart/add/<?php echo $product['id'];?>" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr class="soften">
+    <?php endforeach; endif; ?>
+</div>

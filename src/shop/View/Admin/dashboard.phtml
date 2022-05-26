@@ -1,0 +1,82 @@
+<?php
+/**
+ * @var int $orderCount
+ * @var array[] $orders;
+ * @var int $userCount
+ * @var array[] $users;
+ * @var int $prodCount
+ * @var array[] $products;
+ */
+?>
+    <div class="row">
+        <div class="col-sm">
+            <h3>Orders - <?php echo $orderCount;?> total [<a href="/admin/order/list">view all</a>]</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Billing</th>
+                <th scope="col">Total</th>
+                <th scope="col">Created</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($orders as $order): ?>
+                <tr class="order-<?php echo strtolower($order['status']);?>">
+                    <th scope="row"><?php echo $order['id'];?></th>
+                    <td><?php echo h($order['bill_name']);?><br><em><?php echo h($order['bill_email']);?></em></td>
+                    <td>$<?php echo number_format($order['total'],2);?></td>
+                    <td><?php echo $order['created'];?></td>
+                    <td class="order-status"><span><?php echo strtoupper($order['status']);?></span></td>
+                </tr>
+            <?php endforeach;?>
+            </tbody>
+        </table>
+        </div>
+        <div class="col-sm">
+            <h3>Users - <?php echo $userCount;?> total  [<a href="/admin/user/list">view all</a>]</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Registered</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($users as $user): ?>
+                    <tr>
+                        <th scope="row"><?php echo $user['id'];?></th>
+                        <td><?php echo h($user['name']);?></td>
+                        <td><?php echo h($user['email']);?></td>
+                        <td><?php echo h($user['phone']);?></td>
+                        <td><?php echo $user['registered'];?></td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <h3>Products - <?php echo $prodCount;?> total [<a href="/admin/product/list">view all</a>]</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($products as $product): ?>
+                    <tr>
+                        <th scope="row"><?php echo $product['id'];?></th>
+                        <td><?php echo h($product['name']);?></td>
+                        <td>$<?php echo number_format($product['price'],2);?></td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>

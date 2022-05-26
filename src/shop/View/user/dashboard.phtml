@@ -1,0 +1,36 @@
+<div class="well well-small">
+    <h1><?php echo h($loggedUser['name']);?></h1>
+    <hr class="soften"/>
+    <h3>My order(s)</h3>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th>#id</th>
+            <th>Items (qty, price, name [id])</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php foreach($orders as $order):  ?>
+            <tr class="order-<?php echo strtolower($order['status']);?>">
+                <td><?php echo h($order['id']);?></td>
+                <td>
+                    <ul>
+                    <?php foreach($order['_items'] as $item): ?>
+                        <li><?php echo  $item['qty'], ' x $', number_format($item['price'],2), ' - ', h($item['name']), ' [#', $item['id'],']'; ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </td>
+                <td>$<?php echo number_format($order['total'],2);?></td>
+                <td><?php echo $order['created'];?></td>
+                <td class="order-status"><?php echo strtoupper($order['status']);?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+

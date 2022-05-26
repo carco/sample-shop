@@ -1,0 +1,35 @@
+<?php
+/** 
+ * @var string $title
+ * @var array[] $categories
+ */
+?>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Position</th>
+        <th scope="col">Prod.Cnt</th>
+        <th>Ops | <a href="/admin/category/new">NEW</a></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($categories as $category): ?>
+    <tr>
+        <th scope="row"><?php echo $category['id'];?></th>
+        <td><?php echo h($category['name']);?></td>
+        <td><?php echo $category['position'];?></td>
+        <td><?php echo $category['_prodCount'];?></td>
+        <td>
+            <a href="/admin/category/edit/<?php echo $category['id'];?>">Edit</a> &bull;
+            <?php if(!$category['_prodCount']): ?>
+                <a href="/admin/category/delete/<?php echo $category['id'];?>" onclick="return confirm('DELETE CATEGORY <?php echo $category['id'];?>\nAre you sure?');">Del</a>
+            <?php else: ?>
+                <del title="<?php echo $category['_prodCount'];?> product(s), cannot be removed">Del</del>
+            <?php endif; ?>
+         </td>
+    </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>

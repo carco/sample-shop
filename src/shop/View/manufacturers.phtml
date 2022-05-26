@@ -1,0 +1,11 @@
+<?php
+$brands = Shop\App::getModel('manufacturer')->getWithImages(6);
+if(!$brands) return;
+?>
+        <div class="row">
+            <?php foreach($brands as $row): ?>
+                <div class="span2">
+                    <a href="/product/manufacturer/<?php echo $row['id'];?>" title="<?php echo h($row['name'])." products";?>"><img alt="<?php echo h($row['name']);?>" src="/assets/manufacturer/<?php echo $row['image'];?>?"></a>
+                </div>
+            <?php endforeach; ?>
+        </div>

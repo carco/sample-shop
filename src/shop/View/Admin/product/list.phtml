@@ -1,0 +1,44 @@
+<?php
+/** 
+ * @var int $pages 
+ * @var int $curPage
+ * @var array[] $products
+
+ */
+?>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Product</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($products as $product): ?>
+    <tr>
+        <th scope="row"><?php echo $product['id'];?></th>
+        <td> <img src="/assets/product/<?php echo trim($product['image'],"/");?>" alt="" width="30"></td>
+        <td><?php echo h($product['name']);?></td>
+        <td><?php echo h($product['category']  ?? $product['category_id'] ?? '-');?> <?php echo $product['category'] ? "[#{$product['category_id']}]":'';?></td>
+        <td>$<?php echo number_format($product['price'],2);?></td>
+        <td class="ops">
+            <a href="/admin/product/edit/<?php echo $product['id'];?>">Edit</a> &bull; <a href="/admin/product/del/<?php echo $product['id'];?>" onclick="alert('Not (yet) implemented');return false;">Del</a>
+        </td>
+    </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item <?php echo $curPage <= 1?'disabled':''?>"><a class="page-link" href="/admin/product/list/<?php echo min($curPage-1,1);?>">Previous</a></li>
+        <?php for($i=1;$i<=$pages;$i++): ?>
+        <li class="page-item <?php echo $i==$curPage?'active':'';?>"><a class="page-link" href="/admin/product/list/<?php echo $i;?>"><?php echo $i;?></a></li>
+        <?php endfor;?>
+        <li class="page-item <?php echo $curPage >= $pages?'disabled':''?>"><a class="page-link" href="/admin/product/list/<?php echo max($curPage+1,$pages);?>">Next</a></li>
+    </ul>
+</nav>

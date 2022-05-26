@@ -1,0 +1,69 @@
+<?php
+$to = $p0 ?? '';
+?>
+
+
+	<h3> Login</h3>	
+	<hr class="soft"/>
+	
+	<div class="row">
+		<div class="span4">
+			<div class="well">
+			<h5>CREATE YOUR ACCOUNT</h5><br/>
+			Enter your e-mail address to create an account.<br/><br/><br/>
+            <form action="/user/register/<?php echo $to;?>" method="POST">
+			  <div class="control-group">
+                  <label class="control-label" for="inputName">Name</label>
+                  <div class="controls">
+                      <input name="user[name]" id="inputName"  class="span3"  type="text" placeholder="Name" value="<?php echo h($user['name'] ?? '');?>">
+                  </div>
+                <label class="control-label" for="inputEmail">E-mail address</label>
+                <div class="controls">
+                  <input name="user[email]" id="inputEmail" class="span3"  type="text" placeholder="Email" value="<?php echo h($user['email'] ?? '');?>">
+                </div>
+                  <label class="control-label" for="inputPhone">Phone</label>
+                  <div class="controls">
+                      <input name="user[email]" id="inputPhone" class="span3"  type="text" placeholder="Phone" value="<?php echo h($user['phone'] ?? '');?>">
+                  </div>
+                  <label class="control-label" for="inputPassword">Password</label>
+                  <div class="controls">
+                      <input name="user[password]" id="inputPassword"  class="span3"  type="password" placeholder="Password" value="<?php echo h($user['password'] ?? '');?>">
+                  </div>
+                  <label class="control-label" for="inputRePassword">Retype Password</label>
+                  <div class="controls">
+                      <input name="user[password2]" id="inputRePassword"  class="span3"  type="password" placeholder="Retype Password" value="<?php echo h($user['password2'] ?? '');?>">
+                  </div>
+              </div>
+			  <div class="controls">
+			  <button type="submit" class="btn block">Create Your Account</button>
+			  </div>
+			</form>
+		</div>
+		</div>
+		<div class="span1"> &nbsp;</div>
+		<div class="span4">
+			<div class="well">
+			<h5>ALREADY REGISTERED ?</h5>
+			<form action="/user/login/<?php echo $to;?>" method="POST">
+			  <div class="control-group">
+				<label class="control-label" for="inputEmail">Email</label>
+				<div class="controls">
+				  <input name="user[email]" id="inputEmail" class="span3"  type="text" placeholder="Email" value="<?php echo h($userLoginData['email']??'');?>">
+				</div>
+			  </div>
+			  <div class="control-group">
+				<label class="control-label" for="inputPassword">Password</label>
+				<div class="controls">
+				  <input name="user[password]" id="inputPassword" type="password" class="span3" placeholder="Password">
+				</div>
+			  </div>
+			  <div class="control-group">
+				<div class="controls">
+				  <button type="submit" class="defaultBtn">Sign in</button> <a href="#">Forget password?</a>
+				</div>
+			  </div>
+			</form>
+		</div>
+		</div>
+	</div>	
+	

@@ -1,0 +1,20 @@
+<?php
+    if(empty($breadcrumbs)) return;
+    $lastK = array_key_last($breadcrumbs); 
+ ?>
+    
+<ul class="breadcrumb">
+<?php foreach($breadcrumbs as $k=>$v):?>
+<?php if($k!==$lastK): ?>
+    <li>
+    <?php if($k=="#"): ?>
+        <em><?php echo h($v); ?></em><span class="divider">/</span>
+    <?php else: ?>
+        <a href="<?php echo $k;?>"><?php echo h($v);?> <span class="divider">/</span></a>
+    <?php endif; ?>
+    </li>
+<?php else: ?>
+    <li class="active"><?php echo h($v);?></li>
+<?php endif; ?>
+<?php endforeach; ?>
+</ul>

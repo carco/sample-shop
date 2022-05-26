@@ -1,0 +1,73 @@
+<?php
+/** 
+ *  @var array[] $orders 
+ *  @var int $curPage
+ * 
+ */
+$addrFields = ['name'=>'Name', 'email'=>'Email', 'phone'=>'Phone', 'address'=>'Address', 'city'=>'City', 'state'=>'State'];
+?>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Billing</th>
+        <th scope="col">Shipping</th>
+        <th scope="col">Items</th>
+        <th scope="col">Total</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($orders as $order): ?>
+    <tr class="order-<?php echo strtolower($order['status']);?>">
+        <th scope="row"><?php echo $order['id'];?></th>
+        <td>
+            <?php foreach($addrFields as $k=>$v): ?>
+                <?php echo h($order['bill_'.$k]);?><br>
+            <?php endforeach; ?>
+        </td>
+        <td>
+            <?php foreach($addrFields as $k=>$v): ?>
+                <?php echo h($order['ship_'.$k]);?><br>
+            <?php endforeach; ?>
+        </td>
+        <td>
+            <ul>
+                <?php foreach($order['_items'] as $item): ?>
+                    <li><?php echo  $item['qty'], ' x $', number_format($item['price'],2), ' - ', h($item['name']), ' [#', $item['id'],']'; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </td>
+        <td>$<?php echo number_format($order['total'],2);?></td>
+        <td><?php echo $order['created'];?></td>
+        <td class="order-status"><span><?php echo strtoupper($order['status']);?></span></td>
+        <td>
+            <?php if('new' == $order['status']): ?>
+                <a href="/admin/order/process/<?php echo $order['id'];?>/<?php echo $curPage;?>" onclick="return confirm('[PROCESS ORDER]\nAre you sure?');">Process</a> 
+                &bull;
+                <a href="/admin/order/cancel/<?php echo $order['id'];?>/<?php echo $curPage;?>" onclick="return confirm('[CANCEL ORDER]\nAre you sure?');">Cancel</a>
+            <?php elseif('processing' == $order['status']): ?>
+                <a href="/admin/order/complete/<?php echo $order['id'];?>/<?php echo $curPage;?>" onclick="return confirm('[COMPLETE ORDER]\nAre you sure?');">Complete</a>
+                &bull;
+                <a href="/admin/order/cancel/<?php echo $order['id'];?>/<?php echo $curPage;?>" onclick="return confirm('[CANCEL ORDER]\nAre you sure?');">Cancel</a>
+            <?php else: ?>
+                -
+            <?php endif; ?>
+        </td>
+    </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item <?php echo $curPage <= 1?'disabled':''?>"><a class="page-link" href="/admin/product/list/<?php echo min($curPage-1,1);?>">Previous</a></li>
+        <?php for($i=1;$i<=$pages;$i++): ?>
+        <li class="page-item <?php echo $i==$curPage?'active':'';?>"><a class="page-link" href="/admin/product/list/<?php echo $i;?>"><?php echo $i;?></a></li>
+        <?php endfor;?>
+        <li class="page-item <?php echo $curPage >= $pages?'disabled':''?>"><a class="page-link" href="/admin/product/list/<?php echo max($curPage+1,$pages);?>">Next</a></li>
+    </ul>
+</nav>

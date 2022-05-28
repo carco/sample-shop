@@ -15,12 +15,7 @@ class ProductController extends AbstractController {
         $this->breadcrumbs['product/list']="Products"; 
     }
 
-    /**
-     * @param array|null $params
-     * @return void
-     * @throws NotFoundException
-     */
-    public function viewAction(?array $params)
+    public function viewAction($params)
     {
         $id = $params[0] ?? 0;
         if (!$id || !is_numeric($id)) {
@@ -42,11 +37,13 @@ class ProductController extends AbstractController {
         ]);
     }
     
-    public function categoryAction(?array $params)
+    public function categoryAction($params)
     {
         $id = $params[0] ?? 0;
         if (!$id || !is_numeric($id)) {
-            throw new NotFoundException("Invalid category ID");
+            $this->flash("invalid category ID");
+            $this->redirect("/");
+            return;
         }
         
         /** @var CategoryModel $catModel */

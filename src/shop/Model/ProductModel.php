@@ -52,7 +52,6 @@ class ProductModel extends AbstractDbModel
 
     public function countByCategory($id) 
     {
-        $idValues = implode(', ', $idValues);
         $sql = "SELECT count(*) `cnt`FROM {$this->table} WHERE `category_id` = :categoryId";
         return $this->selectCount($sql, ['categoryId'=>$id]);
     }
@@ -73,5 +72,53 @@ class ProductModel extends AbstractDbModel
         $idValues = implode(', ', $idValues);
         $sql = "SELECT count(*) `cnt`,`category_id` FROM {$this->table} WHERE `category_id` IN ({$idValues}) GROUP BY `category_id`";
         return $this->selectCount($sql, ['categoryId'=>$id],'cnt', 'category_id');
+    }
+
+    public function save($data, $id = null)
+    {
+        if (!$this->validate($data)) {
+            return false;
+        }
+        $params = [
+            'name' => $data['name'],
+            'price' => (double)$data['price'],
+            'description' => $data['description'],
+            'category_id' => (int)$data['category_id'],
+            'image' => $data['image'],
+        ];
+        if ($id) { //update
+            $sql = "UPDATE `{$this->table}` SET `name` = :name, `price` = :price, `description` = :description, `category_id` = :category_id, `image` = :image WHERE `id` = :id";
+            $params['id'] = $id;
+            $result = $this->update($sql, $params);
+        } else {
+            $sql = "INSERT INTO `{$this->table}` (`name`, `price`, `description`, `category_id`, `image`) VALUES (:name, :price, :description, :category_id, :image)";
+            $result = $this->insert($sql, $params);
+        }
+        return $result;
+    }
+
+    private function validate($data)
+    {
+        if (empty($data['name'])) {
+            $this->errors['name'] = 'Name is required';
+        }
+        if (empty($data['price'])) {
+            $this->errors['price'] = 'Price is required';
+        } else {
+            $data['price'] = (double)$data['price'];
+            if ($data['price'] <= 0) {
+                $this->errors['price'] = 'Price is invalid';
+            }
+        }
+        if (empty($data['category_id'])) {
+            $this->errors['category_id'] = 'Category is required';
+        } else {
+            $catModel = App::getModel('category');
+            $category = $catModel->find((int)$data['category_id']);
+            if(!$category) {
+                $this->errors['category_id'] = 'Invalid category';
+            }
+        }
+        return empty($this->errors);
     }
 }

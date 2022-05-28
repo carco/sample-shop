@@ -34,4 +34,58 @@ class ProductController extends AbstractController {
         ]);
     }
 
+    public function editAction($params){
+        $id = $params[0] ?? 0;
+        if (!is_numeric($id) || (int)$id <= 0) {
+            throw new Exception("Invalid product id");
+        }
+        $id = (int)$id;
+        
+        /** @var ProductModel $prodModel */
+        $prodModel = App::getModel('product');
+        $product = $prodModel->find($id);
+        if (!$product) {
+            throw new Exception("Product not found");
+        }
+        
+        $data = $_POST['product'] ?? [];
+        $errors = [];
+        if ($data) {
+            if(!empty($_FILES['image']['name'])){
+                $tmpName = $_FILES['image']['tmp_name'] ?? '';
+                if($tmpName && is_uploaded_file($tmpName) && getimagesize($tmpName)) {
+                    $destFile = SHOP_ROOT.'/assets/product/'.basename($_FILES['image']['name']);
+                    if(move_uploaded_file($tmpName, $destFile)) {
+                        $data['image'] = basename($destFile);
+                    } else {
+                        $errors[] = "Cannot upload file";
+                    }
+                } else {
+                    $errors[] = "Invalid uploaded file";
+                }
+            }
+            if(!$errors) {        
+                $result = $prodModel->save($data, $id);
+                if (false !== $result) { //can be 0 (save return affected rows) if no changes
+                    $this->flash($result ? "Product was updated" : "No changes on product");
+                    $this->redirect('/admin/product/list');
+                    return;
+                }
+                $errors = $prodModel->getErrrors();
+            }
+            $this->flash(implode("\n", $errors));
+            $product = array_merge($product, $data);
+        } 
+        
+        /** @var CategoryModel $catModel */
+        $catModel = App::getModel('category');
+        $categories = $catModel->getNames();
+        
+        $this->renderView('product/edit',[
+            'title' => 'Edit Product #'.$product['id'],
+            'product' => $product,
+            'categories' => $categories,
+        ]);
+    }
+
 }

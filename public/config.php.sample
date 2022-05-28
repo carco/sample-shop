@@ -1,9 +1,0 @@
-<?php
-define('SHOP',true);
-define('SHOP_DB_HOST', '127.0.0.1');
-define('SHOP_DB_USER', 'root');
-define('SHOP_DB_PASS', '');
-define('SHOP_DB','shop');
-
-define('SHOP_EMAIL', 'sample.shop@example.com');
-

@@ -1,5 +1,6 @@
 <?php
 session_start();
+define('SHOP_ROOT', dirname(__FILE__));
 include __DIR__ . '/../src/shop/autoloader.php';
 require 'config.php';
 if(
@@ -10,7 +11,6 @@ if(
 ) {
     exit("SHOP not configured,define SHOP_DB_HOST, SHOP_DB_USER, SHOP_DB_PASS, SHOP_DB, SHOP_EMAIL");
 }
-
 use Shop\Controller\AbstractController;
 use Shop\Exception\NotFoundException;
 $params = isset($_SERVER['PATH_INFO']) ? explode('/', trim($_SERVER['PATH_INFO'],'/')) : ['page','index'];

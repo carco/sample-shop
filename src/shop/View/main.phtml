@@ -138,11 +138,23 @@ Body Section
                 <a href="#">SUPPLIERS</a> <br/>
             </div>
             <div class="span6">
-                <h5>The standard chunk of Lorem</h5>
-                The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for
-                those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et
-                Malorum" by Cicero are also reproduced in their exact original form,
-                accompanied by English versions from the 1914 translation by H. Rackham.
+                <h5><a href="https://cointelegraph.com/">CoinTelegprah news</a></h5>
+                <?php
+                        $content = file_get_contents("https://cointelegraph.com/editors_pick_rss");
+                        $xml  = new SimpleXmlElement($content);
+                        $rows = [];
+                         foreach($xml->channel->item as $entry) {
+                             $rows[] = [$entry->link,$entry->title];
+                         }
+                         shuffle($rows);
+                         $result = array_slice($rows,0, 5);
+                ?>
+               <ul>
+                   <?php foreach($result as $row): ?>
+                    <li><a href="<?php echo $row[0];?>" title="<?php echo h($row[1]);?>"><?php echo h($row[1]);?></a></li>
+                   <?php endforeach;?>
+               </ul>
+
             </div>
         </div>
     </footer>

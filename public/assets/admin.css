@@ -1,8 +1,10 @@
 .order-new {background:lightyellow}
-.order-processing {background:lightblue}
+.order-processing, .user-admin {background:lightblue}
 .order-complete {font-weight: bold;}
 .order-canceled {opacity:0.5; font-style: italic}
-.order-status span {
+.order-status span,
+.user-status span 
+{
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -13,7 +15,8 @@
 .order-complete .order-status span {
     background-color: #468847;
 }
-.order-processing .order-status span {
+.order-processing .order-status span,
+.user-admin .user-status span {
     background-color: #2d6987;
 }
 .order-new .order-status span {
@@ -21,4 +24,26 @@
 }
 .order-canceled .order-status span {
     background-color: #333333;
+}
+
+.admin-ops {
+    float:right;
+    margin-top:-50px;
+    margin-right:50px;
+}
+
+.admin-ops a {
+    font-variant-caps: all-small-caps;
+    font-weight: bolder;
+    padding:5px;
+    background:#eee;
+    margin:5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.admin-ops a:hover {
+    text-decoration: none;
+    color:#fff;
+    background:#ccc;
 }

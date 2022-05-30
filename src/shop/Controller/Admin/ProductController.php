@@ -2,6 +2,7 @@
 namespace Shop\Controller\Admin;
 use Exception;
 use Shop\App;
+use Shop\Model\CategoryModel;
 use Shop\Model\ProductModel;
 
 class ProductController extends AbstractController {
@@ -9,7 +10,7 @@ class ProductController extends AbstractController {
     protected $curSection = 'product';
 
 
-    public function listAction($params = []) {
+    public function listAction($params) {
         
         $curPage = $params[0] ?? 1;
         
@@ -34,6 +35,34 @@ class ProductController extends AbstractController {
         ]);
     }
 
+    public function exportCsvAction() 
+    {
+        /** @var ProductModel $prodModel */
+        $prodModel = App::getModel('product');
+
+        $products = $prodModel->findAll(1, 9999999);
+
+
+        $delimiter = ",";
+       
+        $fields = array('id', 'name', 'category_id', 'category', 'price', 'image', 'description');
+
+        // Set headers to download file rather than displayed 
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="product.csv";');
+        $f = fopen('php://output', 'w');
+        fputcsv($f, $fields, $delimiter);
+        foreach($products as $product) {
+            $row = [];
+            foreach($fields as $field) {
+                $row[$field] = $product[$field];
+            }
+            fputcsv($f, $row, $delimiter);
+        }
+        return;
+        
+    }
+    
     public function editAction($params){
         $id = $params[0] ?? 0;
         if (!is_numeric($id) || (int)$id <= 0) {

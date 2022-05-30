@@ -1,0 +1,42 @@
+<?php
+/** 
+ * @var int $pages 
+ * @var int $curPage
+ * @var array[] $users
+
+ */
+?>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Registered</th>
+        <th scope="col">Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($users as $user): ?>
+    <tr class="<?php echo $user['admin']?'user-admin':'';?>">
+        <th scope="row"><?php echo $user['id'];?></th>
+        <td><?php echo h($user['email']);?></td>
+        <td><?php echo h($user['name']);?></td>
+        <td><?php echo h($user['phone']);?></td>
+        <td><?php echo $user['registered'];?></td>
+        <td class="user-status"><?php echo $user['admin']?'<span>ADMIN</span>':'';?></td>
+    </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item <?php echo $curPage <= 1?'disabled':''?>"><a class="page-link" href="/admin/user/list/<?php echo min($curPage-1,1);?>">Previous</a></li>
+        <?php for($i=1;$i<=$pages;$i++): ?>
+        <li class="page-item <?php echo $i==$curPage?'active':'';?>"><a class="page-link" href="/admin/user/list/<?php echo $i;?>"><?php echo $i;?></a></li>
+        <?php endfor;?>
+        <li class="page-item <?php echo $curPage >= $pages?'disabled':''?>"><a class="page-link" href="/admin/user/list/<?php echo max($curPage+1,$pages);?>">Next</a></li>
+    </ul>
+</nav>

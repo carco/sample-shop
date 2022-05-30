@@ -37,7 +37,26 @@ abstract class AbstractDbModel extends AbstractModel
         }
         return mysqli_fetch_assoc($result);
     }
+    
+    public function findAll($page = 1, $limit = 15)
+    {
+        $page = (int)$page;
+        $limit = (int)$limit;
+        if($page<=0 || $limit <=0) {
+            throw new Exception("Invalid params");
+        }
+        $offset = ($page-1)*$limit;
 
+        $sql = "
+                SELECT * FROM `{$this->table}` 
+                WHERE 1 
+                ORDER BY `id` 
+                LIMIT {$limit}
+                OFFSET {$offset}
+        ";
+        return $this->select($sql);
+    }
+    
     public function query($sql, $params = [], $escape = true)
     {
         $conn = App::getConnection();
